@@ -1,0 +1,8 @@
+{
+  "spec": ["./talk-tests/**/*.test.js"],
+  "require": ["./talk-tests/mocha.global.js"],
+  "timeout": 120000,
+  "parallel": false,
+  "bail": false,
+  "reporter": "spec"
+}
