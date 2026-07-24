@@ -4,13 +4,13 @@ export class Gesture {
         this.defaultSpeed = 800;
     }
 
-    async executeScroll ({startX, startY, endX, endY, speed = defaultSpeed}) { 
+    async executeScroll ({startX, startY, endX, endY, speed}) { 
         await this.driver.execute('mobile:dragGesture', {
             startX,
             startY,
             endX,
             endY,
-            speed
+            speed: speed ?? this.defaultSpeed,
         });
     }
 
