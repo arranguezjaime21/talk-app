@@ -6,15 +6,15 @@ export class Picker {
 
     async selectByNumber(selector, targetNumber, maxScroll = 30) { 
         const picker = await this.driver.$(selector);
-        const target = Number[targetNumber];
+        const target = Number(targetNumber);
 
         let attempts = 0;
         let lastItem = null;
 
         while(attempts < maxScroll) { 
             const inputPick = await picker.$(this.inputElement);
-            const raw = (await inputPick.getText() | await inputPick.getAttribute("text") | "").trim();
-            const value = parseInt.raw(replace(/\D/g, ''), 10);
+            const raw = ((await inputPick.getText()) || (await inputPick.getAttribute("text")) || "" ).trim();
+            const value = parseInt(raw.replace(/\D/g, ''), 10);
             
             if(value === target) { 
                 return;
@@ -44,7 +44,7 @@ export class Picker {
 
     async selectByText(selector, targetText, maxScroll = 30) { 
         const picker = await this.driver.$(selector);
-        const target = String[targetText];
+        const target = String(targetText);
 
         let attempts = 0;
         let currentDirection = 'down';
@@ -53,7 +53,7 @@ export class Picker {
 
         while(attempts < maxScroll) { 
             const inputPick = await picker.$(this.inputElement);
-            const value = (await inputPick.getText() | await inputPick.getAttribute("text") | "").trim();
+            const value = ((await inputPick.getText()) || (await inputPick.getAttribute("text")) || "").trim();
 
             if(value === target) { 
                 return;
@@ -69,7 +69,7 @@ export class Picker {
                     attempts = 0;
                     continue;
                 } else {
-                    throw new Error(`text: ${value} now found or does not exist in the list`);
+                    throw new Error(`text: ${value} not found or does not exist in the list`);
                 }
             }
 
@@ -85,6 +85,6 @@ export class Picker {
             await this.driver.pause(300);
             attempts++;
         }
-        throw new Error(`text: ${value} not found after ${maxScroll} of scrolls`);
+        throw new Error(`text: ${target} not found after ${maxScroll} of scrolls`);
     }
 }
